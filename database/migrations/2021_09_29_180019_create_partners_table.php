@@ -17,7 +17,7 @@ class CreatePartnersTable extends Migration
             $table->id();
             $table->string('organization_title');
             $table->string('director_name');
-            $table->string('inn', 12);
+            $table->string('inn', 12)->unique();
             $table->string('okpo');
             $table->string('address');
             $table->string('account_number')->nullable();

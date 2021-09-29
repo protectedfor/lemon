@@ -25,7 +25,7 @@ class AddPhoneToUsersTable extends Migration
             $table->string('director_name')->nullable()->after('id');
             $table->timestamp('phone_verified_at')->nullable()->after('phone');
             $table->string('confirmation_code', 6)->nullable()->after('phone_verified_at');
-            $table->string('inn', 12)->nullable()->after('organization_title');
+            $table->string('inn', 12)->unique()->nullable()->after('organization_title');
             $table->string('okpo')->nullable()->after('inn');
             $table->string('address')->nullable()->after('okpo');
             $table->string('account_number')->nullable()->after('address');

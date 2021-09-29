@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\PartnersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,10 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('user', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'signout']);
+    Route::resource('partners', PartnersController::class);
 });
 
 Route::post('login', [AuthController::class, 'signin'])->name('login');

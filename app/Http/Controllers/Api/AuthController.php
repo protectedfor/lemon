@@ -5,17 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use App\Rules\PhonePlusPrefix;
 use Carbon\Carbon;
-use Exception;
-use GuzzleHttp\Client;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Log;
-use pdeans\Builders\XmlBuilder;
-use SimpleXMLElement;
-use Str;
 
 class AuthController extends BaseController
 {
@@ -55,7 +48,7 @@ class AuthController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'phone' => ['required', Rule::phone()->country(['KG']), new PhonePlusPrefix],
-            'code'  => ['required', 'min:4', 'max:4'],
+            'code'  => ['required', 'digits:4'],
         ]);
 
         if ($validator->fails()) {
@@ -78,14 +71,17 @@ class AuthController extends BaseController
         return $this->sendResponse($success, 'Вы вошли');
     }
 
+    public function me(Request $request)
+    {
+        return $this->sendResponse($request->user(), 'Данные организации');
+    }
+
     /**
      * @return JsonResponse
      */
-    public function signout()
+    public function signout(Request $request)
     {
-        dd(1);
-        if (Auth::check())
-            Auth::user()->tokens()->delete();
+        $request->user()->tokens()->delete();
 
         return $this->sendResponse([], 'Выход выполнен');
     }
