@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Organization as OrganizationResource;
+use App\Http\Resources\User as UserResource;
 use App\Models\User;
 use App\Rules\PhonePlusPrefix;
 use Carbon\Carbon;
@@ -19,7 +19,7 @@ class AuthController extends BaseController
      * @return JsonResponse
      * @throws GuzzleException
      */
-    public function signin(Request $request)
+    public function signin(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'phone' => ['required', Rule::phone()->country(['KG']), new PhonePlusPrefix],
@@ -33,8 +33,14 @@ class AuthController extends BaseController
 
         if (!$user) {
             $user = User::create(['phone' => $request->phone]);
+        } else {
+            if (Carbon::now()->diffInSeconds($user->code_requested_at) < 60) {
+                $left = 60 - Carbon::now()->diffInSeconds($user->code_requested_at);
+                return $this->sendError('Подождите ' . $left . ' секунд чтобы отправить код');
+            }
         }
 
+        $user->code_requested_at = Carbon::now();
         $user->confirmation_code = confirmation_code();
         $user->save();
 
@@ -47,7 +53,7 @@ class AuthController extends BaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function verifyPhone(Request $request)
+    public function verifyPhone(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'phone' => ['required', Rule::phone()->country(['KG']), new PhonePlusPrefix],
@@ -67,7 +73,7 @@ class AuthController extends BaseController
             return $this->sendError('Неверный код');
         }
 
-        $user->phone_verified_at = Carbon::now();
+        $user->code_requested_at = Carbon::now();
         $user->save();
 
         $success['token'] = $user->createToken('auth_token')->plainTextToken;
@@ -76,19 +82,18 @@ class AuthController extends BaseController
 
     public function me(Request $request)
     {
-        return $this->sendResponse(new OrganizationResource($request->user()), 'Данные организации');
+        return $this->sendResponse(new UserResource($request->user()), 'Данные пользователя.');
     }
 
     /**
      * @return JsonResponse
      */
-    public function signout(Request $request)
+    public function signout(Request $request): JsonResponse
     {
         $user = $request->user();
 
         $user->tokens()->delete();
 
-        $user->phone_verified_at = null;
         $user->confirmation_code = null;
         $user->save();
 

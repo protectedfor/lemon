@@ -124,8 +124,8 @@ return [
     'uuid'                 => 'Поле :attribute должно быть корректным UUID.',
     'phone'                => 'Поле :attribute имеет ошибочный формат.',
     'custom'               => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'inn' => [
+            'unique' => 'Данная организация/партнер уже существует в базе',
         ],
     ],
     'attributes'           => [

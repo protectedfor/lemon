@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Partner extends BaseModel
+class Organization extends BaseModel
 {
     use HasFactory;
 
@@ -17,14 +18,23 @@ class Partner extends BaseModel
         'address',
         'account_number',
         'bik',
-        'bank_address'
+        'bank_address',
+        'logo',
     ];
 
     /**
      * @return BelongsTo
      */
-    public function organization(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function partners(): HasMany
+    {
+        return $this->hasMany(Partner::class);
     }
 }

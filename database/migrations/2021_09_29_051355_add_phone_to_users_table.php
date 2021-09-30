@@ -16,21 +16,11 @@ class AddPhoneToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropUnique(['email']);
             $table->string('email')->nullable()->change();
-            $table->string('phone', 15)->after('name');
+            $table->string('phone', 15)->unique()->after('name');
+            $table->timestamp('code_requested_at')->nullable()->after('phone');
+            $table->string('confirmation_code', 6)->nullable()->after('code_requested_at');
             $table->string('password')->nullable()->change();
             $table->string('name')->nullable()->change();
-            $table->string('organization_title')->nullable()->after('name');
-            $table->unique(['phone', 'email']);
-            $table->dropColumn('name');
-            $table->string('director_name')->nullable()->after('id');
-            $table->timestamp('phone_verified_at')->nullable()->after('phone');
-            $table->string('confirmation_code', 6)->nullable()->after('phone_verified_at');
-            $table->string('inn', 12)->nullable()->after('organization_title');
-            $table->string('okpo')->nullable()->after('inn');
-            $table->string('address')->nullable()->after('okpo');
-            $table->string('account_number')->nullable()->after('address');
-            $table->string('bik')->nullable()->after('account_number');
-            $table->string('bank_address')->nullable()->after('bik');
         });
     }
 

@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\OrganizationsController;
-use App\Http\Controllers\Api\PartnersController;
+use App\Http\Controllers\Api\InvoiceController;
+use App\Http\Controllers\Api\OrganizationController;
+use App\Http\Controllers\Api\OrganizationPartnerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'signout']);
-    Route::put('organization', [OrganizationsController::class, 'update']);
+    Route::get('organization/search', [OrganizationController::class, 'search']);
 
-    Route::resource('partners', PartnersController::class);
+    Route::apiResources([
+        'invoices'               => InvoiceController::class,
+        'organizations'          => OrganizationController::class,
+        'organizations.partners' => OrganizationPartnerController::class,
+    ]);
 });
 
 Route::post('login', [AuthController::class, 'signin'])->name('login');

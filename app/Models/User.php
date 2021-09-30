@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -17,9 +18,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'account_number',
-        'bik',
-        'bank_address',
+        'name',
         'phone',
         'confirmation_code',
         'email',
@@ -34,7 +33,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'phone_verified_at',
         'confirmation_code'
     ];
 
@@ -45,11 +43,14 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'phone_verified_at' => 'datetime',
+        'code_requested_at' => 'datetime',
     ];
 
-    public function partners()
+    /**
+     * @return HasMany
+     */
+    public function organizations(): HasMany
     {
-        return $this->hasMany(Partner::class);
+        return $this->hasMany(Organization::class);
     }
 }

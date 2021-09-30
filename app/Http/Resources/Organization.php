@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\User as UserResource;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -29,6 +30,7 @@ class Organization extends JsonResource
             'bank_address'       => $this->bank_address,
             'phone'              => $this->phone,
             'created_at'         => $this->created_at->format('d.m.Y H:i'),
+            'user'               => new UserResource($this->user),
         ];
     }
 }
