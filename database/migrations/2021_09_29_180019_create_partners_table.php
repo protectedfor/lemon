@@ -15,11 +15,11 @@ class CreatePartnersTable extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
-            $table->string('organization_title');
-            $table->string('director_name');
-            $table->string('inn', 12)->unique();
-            $table->string('okpo');
-            $table->string('address');
+            $table->string('organization_title')->nullable();
+            $table->string('director_name')->nullable();
+            $table->string('inn', 12);
+            $table->string('okpo')->nullable();
+            $table->string('address')->nullable();
             $table->string('account_number')->nullable();
             $table->string('bik')->nullable();
             $table->string('bank_address')->nullable();

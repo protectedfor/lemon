@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\Organization as OrganizationResource;
 use App\Models\User;
 use App\Rules\PhonePlusPrefix;
 use Carbon\Carbon;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +17,7 @@ class AuthController extends BaseController
     /**
      * @param Request $request
      * @return JsonResponse
+     * @throws GuzzleException
      */
     public function signin(Request $request)
     {
@@ -73,7 +76,7 @@ class AuthController extends BaseController
 
     public function me(Request $request)
     {
-        return $this->sendResponse($request->user(), 'Данные организации');
+        return $this->sendResponse(new OrganizationResource($request->user()), 'Данные организации');
     }
 
     /**
@@ -81,7 +84,13 @@ class AuthController extends BaseController
      */
     public function signout(Request $request)
     {
-        $request->user()->tokens()->delete();
+        $user = $request->user();
+
+        $user->tokens()->delete();
+
+        $user->phone_verified_at = null;
+        $user->confirmation_code = null;
+        $user->save();
 
         return $this->sendResponse([], 'Выход выполнен');
     }
