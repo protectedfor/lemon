@@ -26,7 +26,9 @@ class OrganizationController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
-        return $this->sendResponse(OrganizationResource::collection($request->user()->organizations), 'Организации пользователя.');
+        if (!$request->user()->organizations()->first())
+            return $this->sendError('Организаций не найдено');
+        return $this->sendResponse(new OrganizationResource($request->user()->organizations()->first()), 'Организации пользователя.');
     }
 
     /**
@@ -36,7 +38,7 @@ class OrganizationController extends BaseController
      */
     public function show(Request $request, Organization $organization): JsonResponse
     {
-        return $this->sendResponse(new OrganizationResource($organization), 'Данные организации');
+        return $this->sendResponse(new OrganizationResource($organization->load('invoices')), 'Данные организации');
     }
 
     /**
@@ -58,6 +60,10 @@ class OrganizationController extends BaseController
 
         if ($validator->fails()) {
             return $this->sendError('Ошибки валидации', $validator->errors());
+        }
+
+        if ($request->user()->organizations()->count() > 0) {
+            return $this->sendError('Невозможно создать больше одной организации');
         }
 
         $organization = $request->user()->organizations()->create([

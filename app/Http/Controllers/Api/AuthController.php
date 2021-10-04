@@ -36,7 +36,11 @@ class AuthController extends BaseController
         } else {
             if (Carbon::now()->diffInSeconds($user->code_requested_at) < 60) {
                 $left = 60 - Carbon::now()->diffInSeconds($user->code_requested_at);
-                return $this->sendError('Подождите ' . $left . ' секунд чтобы отправить код');
+                return $this->sendError('Подождите ' . $left . ' секунд чтобы отправить код заново', [
+                    'secondsLeft'        => $left,
+                    'waitUntilTimestamp' => Carbon::now()->addSeconds($left)->timestamp,
+                    'waitUntil'          => Carbon::now()->addSeconds($left)->format('d.m.Y H:i:s'),
+                ]);
             }
         }
 

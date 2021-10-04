@@ -37,4 +37,12 @@ class Organization extends BaseModel
     {
         return $this->hasMany(Partner::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

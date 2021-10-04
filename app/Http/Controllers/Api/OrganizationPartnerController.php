@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\Partner as PartnerResource;
 use App\Models\Organization;
 use App\Models\Partner;
-use App\Policies\PartnerPolicy;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

@@ -17,8 +17,13 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('organization_id');
             $table->unsignedBigInteger('partner_id');
-            $table->string('title')->nullable();
+            $table->tinyText('status');
+            $table->tinyText('currency');
+//            $table->decimal('total', 12, 2)->default(0);
             $table->timestamps();
+
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

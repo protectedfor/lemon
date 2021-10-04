@@ -26,7 +26,8 @@ class Partner extends JsonResource
             'okpo'               => $this->okpo,
             'address'            => $this->address,
             'account_number'     => $this->account_number,
-            'bik'                => $this->bank_address,
+            'bank_address'       => $this->bank_address,
+            'bik'                => $this->bik,
             'created_at'         => $this->created_at->format('d.m.Y H:i'),
             'organization'       => new OrganizationResource($this->organization),
         ];

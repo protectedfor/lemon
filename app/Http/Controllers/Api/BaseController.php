@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use DB;
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Event;
 use Log;
 use pdeans\Builders\XmlBuilder;
 use SimpleXMLElement;
 
 class BaseController extends Controller
 {
+
+
     /**
      * success response method.
      *
@@ -21,15 +26,42 @@ class BaseController extends Controller
      */
     public function sendResponse($result, $message)
     {
+        $debugInfo = $this->getDebugInfo();
+
         $response = [
             'message' => $message,
             'success' => true,
             'data'    => $result,
         ];
 
+        if (env('APP_DEBUG'))
+            $response['debug'] = $debugInfo;
+
         return response()->json($response, 200);
     }
 
+    private function getDebugInfo()
+    {
+        $queryLogs = DB::getQueryLog();
+
+        $queries = [];
+        $timeExpenses = 0;
+
+        foreach ($queryLogs as $log) {
+            $timeExpenses += $log['time'];
+            $queries[] = [
+                'query' => vsprintf(str_replace('?', '`%s`', $log['query']), $log['bindings']),
+                'time'  => $log['time'],
+            ];
+        }
+
+        return [
+            'queries_count'        => count($queries),
+            'total_execution_time' => round($timeExpenses, 2),
+            'queries'              => $queries,
+        ];
+
+    }
 
     /**
      * return error response.
@@ -41,6 +73,8 @@ class BaseController extends Controller
      */
     public function sendError($error, $errorMessages = [], $code = 404)
     {
+        $debugInfo = $this->getDebugInfo();
+
         $response = [
             'message' => $error,
             'success' => false,
@@ -50,6 +84,9 @@ class BaseController extends Controller
             $response['data'] = $errorMessages;
         }
 
+        if (env('APP_DEBUG'))
+            $response['debug'] = $debugInfo;
+
         return response()->json($response, $code);
     }
 
@@ -57,7 +94,7 @@ class BaseController extends Controller
      * @param $phone
      * @param string $text
      * @return bool|SimpleXMLElement
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     protected function sendNikitaSMS($phone, $text = '')
     {

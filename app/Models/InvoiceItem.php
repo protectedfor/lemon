@@ -3,12 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InvoiceItem extends BaseModel
 {
     use HasFactory;
 
-    public function invoice()
+    protected $fillable = [
+        'title',
+        'type',
+        'quantity',
+        'unit',
+        'price',
+    ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
     }

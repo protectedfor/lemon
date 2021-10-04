@@ -13,6 +13,18 @@ class PartnerPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine whether the user can view any models.
+     *
+     * @param User $user
+     * @param Organization $organization
+     * @return Response|bool
+     */
+    public function viewAny(User $user, Organization $organization)
+    {
+        return $user->id === $organization->user_id;
+    }
+
+    /**
      * Determine whether the user can view the model.
      *
      * @param User $user
@@ -23,18 +35,6 @@ class PartnerPolicy
     public function view(User $user, Organization $organization, Partner $partner)
     {
         return $user->id === $organization->user_id && $organization->id === $partner->organization_id;
-    }
-
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param User $user
-     * @param Organization $organization
-     * @return Response|bool
-     */
-    public function viewAny(User $user, Organization $organization)
-    {
-        return $user->id === $organization->user_id;
     }
 
     /**
