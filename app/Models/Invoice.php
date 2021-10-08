@@ -17,9 +17,14 @@ class Invoice extends BaseModel
         'currency',
     ];
 
-    protected $with = ['items'];
+    protected $with = ['items', 'transactions'];
 
-    protected $appends = ['total', 'services_count'];
+    protected $appends = [
+        'total',
+        'paid',
+        'dept',
+        'services_count',
+    ];
 
     /**
      * @return HasMany
@@ -27,6 +32,14 @@ class Invoice extends BaseModel
     public function items(): HasMany
     {
         return $this->hasMany(InvoiceItem::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     /**
@@ -45,16 +58,40 @@ class Invoice extends BaseModel
         return $this->belongsTo(Partner::class);
     }
 
+    public function getStatusAttribute()
+    {
+        if ($this->paid === 0)
+            return trans('invoiceOptions.statuses.unpaid');
+        elseif ($this->total > $this->paid)
+            return trans('invoiceOptions.statuses.partially_paid');
+        else
+            return trans('invoiceOptions.statuses.paid');
+    }
+
     /**
      * @return float|int
      */
     public function getTotalAttribute()
     {
-        $total = 0;
-        foreach ($this->items as $item) {
-            $total += $item->quantity * $item->price;
-        }
-        return $total;
+        return $this->items->sum(function ($item) {
+            return $item['quantity'] * $item['price'];
+        });
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getPaidAttribute()
+    {
+        return $this->transactions->sum('amount');
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getDeptAttribute()
+    {
+        return $this->total - $this->paid;
     }
 
     /**

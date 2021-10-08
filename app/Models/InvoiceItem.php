@@ -17,6 +17,10 @@ class InvoiceItem extends BaseModel
         'price',
     ];
 
+    protected $casts = [
+        'price' => 'integer',
+    ];
+
     /**
      * @return BelongsTo
      */

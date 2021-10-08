@@ -17,7 +17,7 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('organization_id');
             $table->unsignedBigInteger('partner_id');
-            $table->tinyText('status');
+//            $table->tinyText('status');
             $table->tinyText('currency');
 //            $table->decimal('total', 12, 2)->default(0);
             $table->timestamps();

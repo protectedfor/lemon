@@ -51,7 +51,6 @@ class OrganizationPartnerInvoiceController extends BaseController
         $invoice = $organization->invoices()->create([
             'currency'   => $request->currency,
             'partner_id' => $partner->id,
-            'status'     => 'unpaid',
         ]);
 
         $invoice->items()->createMany($request->items);
@@ -88,7 +87,6 @@ class OrganizationPartnerInvoiceController extends BaseController
         $invoice->update([
             'currency'   => $request->currency,
             'partner_id' => $partner->id,
-            'status'     => 'unpaid',
         ]);
 
         $invoice->items()->delete();

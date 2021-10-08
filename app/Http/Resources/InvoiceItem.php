@@ -20,9 +20,9 @@ class InvoiceItem extends JsonResource
         return [
             'id'         => $this->id,
             'title'      => $this->title,
-            'type'       => $this->type,
+            'type'       => trans('invoiceOptions.types.' . $this->type),
             'quantity'   => $this->quantity,
-            'unit'       => $this->unit,
+            'unit'       => trans('invoiceOptions.units.' . $this->unit),
             'price'      => $this->price,
             'created_at' => $this->created_at->format('d.m.Y H:i')
         ];

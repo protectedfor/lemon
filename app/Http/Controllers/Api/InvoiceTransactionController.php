@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Transaction;
+use App\Policies\TransactionPolicy;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Validator;
+use App\Http\Resources\Invoice as InvoiceResource;
 
-class InvoiceTransactionController extends Controller
+class InvoiceTransactionController extends BaseController
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -27,11 +31,29 @@ class InvoiceTransactionController extends Controller
      *
      * @param Request $request
      * @param Invoice $invoice
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, Invoice $invoice)
     {
-        //
+        $this->authorize('create', [Transaction::class, $invoice]);
+
+        $validator = Validator::make($request->all(), [
+            'amount'           => ['required', 'integer', 'min:1', 'max:' . $invoice->dept],
+            'transaction_type' => ['required', 'in:' . implode(',', array_keys(trans('invoiceOptions.transaction_types')))]
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Ошибки валидации', $validator->errors());
+        }
+
+        $transaction = $invoice->transactions()->create([
+            'amount'           => $request->amount,
+            'transaction_type' => $request->transaction_type,
+        ]);
+
+        $invoice->refresh();
+
+        return $this->sendResponse(new InvoiceResource($invoice), 'Оплата по счета успешно проведена');
     }
 
     /**
