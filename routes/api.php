@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\InvoiceTransactionController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\OrganizationPartnerController;
 use App\Http\Controllers\Api\OrganizationPartnerInvoiceController;
@@ -29,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'organizations.partners'          => OrganizationPartnerController::class,
         'organizations.invoices'          => OrganizationInvoiceController::class,
         'organizations.partners.invoices' => OrganizationPartnerInvoiceController::class,
+        'invoices.transactions'           => InvoiceTransactionController::class,
     ]);
 });
 
