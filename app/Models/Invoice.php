@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -58,6 +60,9 @@ class Invoice extends BaseModel
         return $this->belongsTo(Partner::class);
     }
 
+    /**
+     * @return array|Application|Translator|string|null
+     */
     public function getStatusAttribute()
     {
         if ($this->paid === 0)
