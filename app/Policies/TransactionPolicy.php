@@ -65,9 +65,9 @@ class TransactionPolicy
      * @param \App\Models\Transaction $transaction
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Transaction $transaction)
+    public function delete(User $user, Transaction $transaction, Invoice $invoice)
     {
-        //
+        return $user->id === $invoice->organization->user_id && $transaction->invoice_id === $invoice->id;
     }
 
     /**

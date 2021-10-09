@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Transaction;
 use App\Policies\TransactionPolicy;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Validator;
@@ -31,7 +33,8 @@ class InvoiceTransactionController extends BaseController
      *
      * @param Request $request
      * @param Invoice $invoice
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function store(Request $request, Invoice $invoice)
     {
@@ -86,10 +89,17 @@ class InvoiceTransactionController extends BaseController
      *
      * @param Invoice $invoice
      * @param Transaction $transaction
-     * @return void
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function destroy(Invoice $invoice, Transaction $transaction)
+    public function destroy(Request $request, Invoice $invoice, Transaction $transaction)
     {
-        //
+        $this->authorize('delete', [Transaction::class, $transaction, $invoice]);
+
+        $transaction->delete();
+
+        $invoice->refresh();
+
+        return $this->sendResponse(new InvoiceResource($invoice), 'Транзакция успешно удалена.');
     }
 }
