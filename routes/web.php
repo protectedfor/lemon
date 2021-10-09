@@ -13,9 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return [
-        'api'     => 'lemon',
-        'version' => '1.0.0'
-    ];
-});
+Voyager::routes();
