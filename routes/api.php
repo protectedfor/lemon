@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\OrganizationPartnerController;
 use App\Http\Controllers\Api\OrganizationPartnerInvoiceController;
 use App\Http\Controllers\Api\OrganizationInvoiceController;
+use App\Http\Controllers\Api\SliderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,23 +23,17 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'signout']);
-    Route::get('organization/search', [OrganizationController::class, 'search']);
     Route::get('options/invoice', [OrganizationPartnerInvoiceController::class, 'options']);
 
-//    Route::apiResources([
-//        'organizations'                   => OrganizationController::class,
-//        'organizations.partners'          => OrganizationPartnerController::class,
-//        'organizations.invoices'          => OrganizationInvoiceController::class,
-//        'organizations.partners.invoices' => OrganizationPartnerInvoiceController::class,
-//        'invoices.transactions'           => InvoiceTransactionController::class,
-//    ]);
-
+    Route::get('organizations/search', [OrganizationController::class, 'search']);
     Route::apiResource('organizations', OrganizationController::class)->shallow();
     Route::apiResource('organizations.partners', OrganizationPartnerController::class)->shallow();
     Route::apiResource('organizations.invoices', OrganizationInvoiceController::class)->shallow();
     Route::apiResource('organizations.partners.invoices', OrganizationPartnerInvoiceController::class)->shallow();
     Route::apiResource('invoices.transactions', InvoiceTransactionController::class)->shallow();
 });
+
+Route::get('sliders', [SliderController::class, 'index']);
 
 Route::post('login', [AuthController::class, 'signin'])->name('login');
 Route::post('login/verify/phone', [AuthController::class, 'verifyPhone']);

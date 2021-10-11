@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         if (env('APP_DEBUG'))
             DB::enableQueryLog();
+
         Schema::defaultStringLength(125);
     }
 }
