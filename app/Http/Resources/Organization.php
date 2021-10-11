@@ -31,6 +31,7 @@ class Organization extends JsonResource
             'bank_address'       => $this->bank_address,
             'phone'              => $this->phone,
             'created_at'         => $this->created_at->format('d.m.Y H:i'),
+            'taxes'              => $this->taxes,
             'user'               => new UserResource($this->user),
             'invoices'           => InvoiceResource::collection($this->whenLoaded('invoices')),
         ];

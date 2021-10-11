@@ -38,6 +38,33 @@ class OrganizationController extends BaseController
      */
     public function show(Request $request, Organization $organization): JsonResponse
     {
+        $cash_rate = $request->user()->tax_rate_cash;
+        $cashless_rate = $request->user()->tax_rate_cashless;
+
+        $cash = $organization->transactions->filter(function ($item) {
+            return $item['transaction_type'] == 'cash';
+        })->sum('amount');
+
+        $cashless = $organization->transactions->filter(function ($item) {
+            return $item['transaction_type'] == 'cashless';
+        })->sum('amount');
+
+        $cash_tax_amount = $cash_rate / 100 * $cash;
+        $cashless_tax_amount = $cashless_rate / 100 * $cashless;
+
+        $organization->taxes = [
+            'in_cash_form'     => [
+                'income'     => $cash,
+                'cash_rate'  => $cash_rate . '%',
+                'tax_amount' => $cash_tax_amount,
+            ],
+            'in_cashless_form' => [
+                'income' => $cashless,
+                'cash_rate'  => $cashless_rate . '%',
+                'tax_amount' => $cashless_tax_amount,
+            ],
+            'total_tax'        => $cash_tax_amount + $cashless_tax_amount,
+        ];
         return $this->sendResponse(new OrganizationResource($organization->load('invoices')), 'Данные организации');
     }
 

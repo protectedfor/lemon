@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Organization extends BaseModel
 {
@@ -44,5 +45,13 @@ class Organization extends BaseModel
     public function invoices(): HasMany
     {
         return $this->hasMany(Invoice::class);
+    }
+
+    /**
+     * @return HasManyThrough
+     */
+    public function transactions(): HasManyThrough
+    {
+        return $this->hasManyThrough(Transaction::class, Invoice::class);
     }
 }
