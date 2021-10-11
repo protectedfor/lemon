@@ -25,13 +25,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('organization/search', [OrganizationController::class, 'search']);
     Route::get('options/invoice', [OrganizationPartnerInvoiceController::class, 'options']);
 
-    Route::apiResources([
-        'organizations'                   => OrganizationController::class,
-        'organizations.partners'          => OrganizationPartnerController::class,
-        'organizations.invoices'          => OrganizationInvoiceController::class,
-        'organizations.partners.invoices' => OrganizationPartnerInvoiceController::class,
-        'invoices.transactions'           => InvoiceTransactionController::class,
-    ]);
+//    Route::apiResources([
+//        'organizations'                   => OrganizationController::class,
+//        'organizations.partners'          => OrganizationPartnerController::class,
+//        'organizations.invoices'          => OrganizationInvoiceController::class,
+//        'organizations.partners.invoices' => OrganizationPartnerInvoiceController::class,
+//        'invoices.transactions'           => InvoiceTransactionController::class,
+//    ]);
+
+    Route::apiResource('organizations', OrganizationController::class)->shallow();
+    Route::apiResource('organizations.partners', OrganizationPartnerController::class)->shallow();
+    Route::apiResource('organizations.invoices', OrganizationInvoiceController::class)->shallow();
+    Route::apiResource('organizations.partners.invoices', OrganizationPartnerInvoiceController::class)->shallow();
+    Route::apiResource('invoices.transactions', InvoiceTransactionController::class)->shallow();
 });
 
 Route::post('login', [AuthController::class, 'signin'])->name('login');

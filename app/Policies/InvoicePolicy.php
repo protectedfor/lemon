@@ -32,9 +32,9 @@ class InvoicePolicy
      * @param Invoice $invoice
      * @return bool
      */
-    public function view(User $user, Organization $organization, Partner $partner, Invoice $invoice)
+    public function view(User $user, Invoice $invoice)
     {
-        return $user->id === $organization->user_id && $organization->id === $partner->organization_id && $invoice->organization_id == $organization->id && $invoice->partner_id == $partner->id;
+        return $user->id === $invoice->organization->user_id && $invoice->organization->id === $invoice->partner->organization_id && $invoice->organization_id == $invoice->organization->id && $invoice->partner_id == $invoice->partner->id;
     }
 
     /**
@@ -58,9 +58,9 @@ class InvoicePolicy
      * @param Invoice $invoice
      * @return bool
      */
-    public function update(User $user, Organization $organization, Partner $partner, Invoice $invoice)
+    public function update(User $user, Invoice $invoice)
     {
-        return $user->id === $organization->user_id && $organization->id === $partner->organization_id && $invoice->organization_id == $organization->id && $invoice->partner_id == $partner->id;
+        return $user->id === $invoice->organization->user_id && $invoice->organization->id === $invoice->partner->organization_id && $invoice->organization_id == $invoice->organization->id && $invoice->partner_id == $invoice->partner->id;
     }
 
     /**
@@ -70,9 +70,9 @@ class InvoicePolicy
      * @param Invoice $invoice
      * @return Response|bool
      */
-    public function delete(User $user, Organization $organization, Partner $partner, Invoice $invoice)
+    public function delete(User $user, Invoice $invoice)
     {
-        return $user->id === $organization->user_id && $organization->id === $partner->organization_id && $invoice->organization_id == $organization->id && $invoice->partner_id == $partner->id;
+        return $user->id === $invoice->organization->user_id && $invoice->organization->id === $invoice->partner->organization_id && $invoice->organization_id == $invoice->organization->id && $invoice->partner_id == $invoice->partner->id;
     }
 
     /**

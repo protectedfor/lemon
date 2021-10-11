@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Transaction extends BaseModel
 {
@@ -17,4 +18,12 @@ class Transaction extends BaseModel
     protected $casts = [
         'amount' => 'integer',
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function invoice(): BelongsTo
+    {
+        return $this->belongsTo(Invoice::class);
+    }
 }

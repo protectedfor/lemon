@@ -92,14 +92,14 @@ class InvoiceTransactionController extends BaseController
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function destroy(Request $request, Invoice $invoice, Transaction $transaction)
+    public function destroy(Request $request, Transaction $transaction)
     {
-        $this->authorize('delete', [Transaction::class, $transaction, $invoice]);
+        $this->authorize('delete', [Transaction::class, $transaction]);
 
         $transaction->delete();
 
-        $invoice->refresh();
+        $transaction->invoice->refresh();
 
-        return $this->sendResponse(new InvoiceResource($invoice), 'Транзакция успешно удалена.');
+        return $this->sendResponse(new InvoiceResource($transaction->invoice), 'Транзакция успешно удалена.');
     }
 }

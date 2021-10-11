@@ -32,9 +32,9 @@ class PartnerPolicy
      * @param Partner $partner
      * @return Response|bool
      */
-    public function view(User $user, Organization $organization, Partner $partner)
+    public function view(User $user, Partner $partner)
     {
-        return $user->id === $organization->user_id && $organization->id === $partner->organization_id;
+        return $user->id === $partner->organization->user_id && $partner->organization_id === $partner->organization->id;
     }
 
     /**
@@ -54,12 +54,11 @@ class PartnerPolicy
      *
      * @param User $user
      * @param Partner $partner
-     * @param Organization $organization
      * @return Response|bool
      */
-    public function update(User $user, Organization $organization, Partner $partner)
+    public function update(User $user, Partner $partner)
     {
-        return $user->id === $organization->user_id && $organization->id === $partner->organization_id;
+        return $user->id === $partner->organization->user_id && $partner->organization->id === $partner->organization_id;
     }
 
     /**
@@ -70,9 +69,9 @@ class PartnerPolicy
      * @param Partner $partner
      * @return Response|bool
      */
-    public function delete(User $user, Organization $organization, Partner $partner)
+    public function delete(User $user, Partner $partner)
     {
-        return $user->id === $organization->user_id && $organization->id === $partner->organization_id;
+        return $user->id === $partner->organization->user_id && $partner->organization->id === $partner->organization_id;
     }
 
     /**

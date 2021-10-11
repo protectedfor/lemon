@@ -32,7 +32,7 @@ class Organization extends JsonResource
             'phone'              => $this->phone,
             'created_at'         => $this->created_at->format('d.m.Y H:i'),
             'user'               => new UserResource($this->user),
-//            'invoices'           => InvoiceResource::collection($this->invoices),
+            'invoices'           => InvoiceResource::collection($this->whenLoaded('invoices')),
         ];
     }
 }

@@ -57,7 +57,20 @@ class OrganizationPartnerController extends BaseController
             'inn' => $request->inn,
         ]);
 
-        return $this->sendResponse(new PartnerResource($partner), 'Партнер сохранен.');
+        return $this->sendResponse(new PartnerResource($partner->loadMissing('invoices')), 'Партнер сохранен.');
+    }
+
+    /**
+     * @param Request $request
+     * @param Partner $partner
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function show(Request $request, Partner $partner): JsonResponse
+    {
+        $this->authorize('view', [Partner::class, $partner]);
+
+        return $this->sendResponse(new PartnerResource($partner->loadMissing('invoices')), 'Данные партнера');
     }
 
     /**
@@ -67,23 +80,9 @@ class OrganizationPartnerController extends BaseController
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function show(Request $request, Organization $organization, Partner $partner): JsonResponse
+    public function update(Request $request, Partner $partner): JsonResponse
     {
-        $this->authorize('view', [Partner::class, $organization, $partner]);
-
-        return $this->sendResponse(new PartnerResource($partner), 'Данные партнера');
-    }
-
-    /**
-     * @param Request $request
-     * @param Organization $organization
-     * @param Partner $partner
-     * @return JsonResponse
-     * @throws AuthorizationException
-     */
-    public function update(Request $request, Organization $organization, Partner $partner): JsonResponse
-    {
-        $this->authorize('update', [Partner::class, $organization, $partner]);
+        $this->authorize('update', [Partner::class, $partner]);
 
         $validator = Validator::make($request->all(), [
             'account_number' => ['required', 'max:125'],
@@ -106,14 +105,13 @@ class OrganizationPartnerController extends BaseController
 
     /**
      * @param Request $request
-     * @param Organization $organization
      * @param Partner $partner
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function destroy(Request $request, Organization $organization, Partner $partner): JsonResponse
+    public function destroy(Request $request, Partner $partner): JsonResponse
     {
-        $this->authorize('delete', [Partner::class, $organization, $partner]);
+        $this->authorize('delete', [Partner::class, $partner]);
 
         $partner->delete();
 

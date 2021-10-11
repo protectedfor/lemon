@@ -60,15 +60,13 @@ class OrganizationPartnerInvoiceController extends BaseController
 
     /**
      * @param Request $request
-     * @param Organization $organization
-     * @param Partner $partner
      * @param Invoice $invoice
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function update(Request $request, Organization $organization, Partner $partner, Invoice $invoice): JsonResponse
+    public function update(Request $request, Invoice $invoice): JsonResponse
     {
-        $this->authorize('update', [Invoice::class, $organization, $partner, $invoice]);
+        $this->authorize('update', [Invoice::class, $invoice]);
 
         $validator = Validator::make($request->all(), [
             'currency'         => ['required', 'in:' . implode(',', array_keys(trans('invoiceOptions.currencies')))],
@@ -86,7 +84,7 @@ class OrganizationPartnerInvoiceController extends BaseController
 
         $invoice->update([
             'currency'   => $request->currency,
-            'partner_id' => $partner->id,
+            'partner_id' => $invoice->partner->id,
         ]);
 
         $invoice->items()->delete();
@@ -106,9 +104,9 @@ class OrganizationPartnerInvoiceController extends BaseController
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function show(Request $request, Organization $organization, Partner $partner, Invoice $invoice): JsonResponse
+    public function show(Request $request, Invoice $invoice): JsonResponse
     {
-        $this->authorize('view', [Invoice::class, $organization, $partner, $invoice]);
+        $this->authorize('view', [Invoice::class, $invoice]);
 
         return $this->sendResponse(new InvoiceResource($invoice), 'Данные счета на оплату');
     }
@@ -121,9 +119,9 @@ class OrganizationPartnerInvoiceController extends BaseController
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function destroy(Request $request, Organization $organization, Partner $partner, Invoice $invoice): JsonResponse
+    public function destroy(Request $request, Invoice $invoice): JsonResponse
     {
-        $this->authorize('delete', [Invoice::class, $organization, $partner, $invoice]);
+        $this->authorize('delete', [Invoice::class, $invoice]);
 
         $invoice->delete();
 

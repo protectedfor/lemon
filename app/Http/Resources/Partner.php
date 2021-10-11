@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\Organization as OrganizationResource;
+use App\Http\Resources\Invoice as InvoiceResource;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -30,6 +31,7 @@ class Partner extends JsonResource
             'bik'                => $this->bik,
             'created_at'         => $this->created_at->format('d.m.Y H:i'),
             'organization'       => new OrganizationResource($this->organization),
+            'invoices'           => InvoiceResource::collection($this->whenLoaded('invoices'))
         ];
     }
 }

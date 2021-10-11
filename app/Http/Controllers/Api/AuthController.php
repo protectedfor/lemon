@@ -84,9 +84,13 @@ class AuthController extends BaseController
         return $this->sendResponse($success, 'Вы вошли');
     }
 
-    public function me(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function me(Request $request): JsonResponse
     {
-        return $this->sendResponse(new UserResource($request->user()), 'Данные пользователя.');
+        return $this->sendResponse(new UserResource($request->user()->loadMissing('organizations.invoices')), 'Данные пользователя.');
     }
 
     /**
