@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::any('adminer', [AdminerController::class, 'index'])->name('adminer.index');
+Route::any('adminer', [AdminerController::class, 'index'])->name('adminer.index')->middleware('admin.user');
 
 Voyager::routes();
