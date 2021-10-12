@@ -77,8 +77,7 @@ class OrganizationReportController extends BaseController
     }
 
     /**
-     * @param $fields
-     * @return string[]
+     * @return \string[][]
      */
     private function validationRules()
     {
