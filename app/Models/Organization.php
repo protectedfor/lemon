@@ -48,6 +48,14 @@ class Organization extends BaseModel
     }
 
     /**
+     * @return HasMany
+     */
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    /**
      * @return HasManyThrough
      */
     public function transactions(): HasManyThrough

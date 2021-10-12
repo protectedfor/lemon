@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\OrganizationPartnerController;
 use App\Http\Controllers\Api\OrganizationPartnerInvoiceController;
 use App\Http\Controllers\Api\OrganizationInvoiceController;
+use App\Http\Controllers\Api\OrganizationReportController;
 use App\Http\Controllers\Api\SliderController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('organizations/search', [OrganizationController::class, 'search']);
     Route::apiResource('organizations', OrganizationController::class)->shallow();
     Route::apiResource('organizations.partners', OrganizationPartnerController::class)->shallow();
+    Route::apiResource('organizations.reports', OrganizationReportController::class)->shallow();
     Route::apiResource('organizations.invoices', OrganizationInvoiceController::class)->shallow();
     Route::apiResource('organizations.partners.invoices', OrganizationPartnerInvoiceController::class)->shallow();
     Route::apiResource('invoices.transactions', InvoiceTransactionController::class)->shallow();

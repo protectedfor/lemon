@@ -15,7 +15,6 @@ class Invoice extends BaseModel
     protected $fillable = [
         'organization_id',
         'partner_id',
-        'status',
         'currency',
     ];
 
@@ -26,6 +25,8 @@ class Invoice extends BaseModel
         'paid',
         'dept',
         'services_count',
+        'status',
+        'humanStatus',
     ];
 
     /**
@@ -63,7 +64,7 @@ class Invoice extends BaseModel
     /**
      * @return array|Application|Translator|string|null
      */
-    public function getStatusAttribute()
+    public function getHumanStatusAttribute()
     {
         if ($this->paid === 0)
             return trans('invoiceOptions.statuses.unpaid');
@@ -71,6 +72,19 @@ class Invoice extends BaseModel
             return trans('invoiceOptions.statuses.partially_paid');
         else
             return trans('invoiceOptions.statuses.paid');
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusAttribute(): string
+    {
+        if ($this->paid === 0)
+            return 'unpaid';
+        elseif ($this->total > $this->paid)
+            return 'partially_paid';
+        else
+            return 'paid';
     }
 
     /**
