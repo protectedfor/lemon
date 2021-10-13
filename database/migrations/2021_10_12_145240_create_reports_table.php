@@ -18,6 +18,7 @@ class CreateReportsTable extends Migration
             $table->unsignedBigInteger('organization_id');
             $table->date('quarter_from');
             $table->date('quarter_to');
+            $table->unsignedSmallInteger('year');
             $table->tinyText('type');
             $table->tinyText('status');
 

@@ -63,26 +63,23 @@ class OrganizationReportController extends BaseController
             'quarter_from' => $quarter_start->format('Y-m-d'),
             'quarter_to'   => $quarter_end->format('Y-m-d'),
             'status'       => 'not_sent',
+            'year'         => $request->year,
         ], $validator->safe()->toArray());
 
         $report = $organization->reports()->create($data);
 
         return $this->sendResponse($report, 'Отчет создан');
 
-//        return $this->sendResponse([
-//            'current_quarter_start' => $quarter_start->format('d.m.Y'),
-//            'current_quarter_end'   => $quarter_end->format('d.m.Y'),
-//        ], '');
-
     }
 
     /**
-     * @return \string[][]
+     * @return array
      */
     private function validationRules()
     {
         $rules = [
-            'type' => ['required', 'in:' . implode(',', array_keys(trans('invoiceOptions.tax_report_types')))]
+            'type' => ['required', 'in:' . implode(',', array_keys(trans('invoiceOptions.tax_report_types')))],
+            'year' => ['required', 'integer', 'in:' . implode(',', range(2000, Carbon::now()->year))],
         ];
         switch (request('type')) {
             case 'sales_tax':
