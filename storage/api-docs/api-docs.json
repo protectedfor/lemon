@@ -1,0 +1,60 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Lemon API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Sign in",
+                "description": "Login by phone number",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "phone"
+                                ],
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "996554709714"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry, wrong email address or password. Please try again"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
