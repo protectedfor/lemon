@@ -27,6 +27,7 @@ class Invoice extends BaseModel
         'services_count',
         'status',
         'humanStatus',
+        'humanCurrency',
     ];
 
     /**
@@ -72,6 +73,16 @@ class Invoice extends BaseModel
             return trans('invoiceOptions.statuses.partially_paid');
         else
             return trans('invoiceOptions.statuses.paid');
+    }
+
+    /**
+     * @return array|Application|Translator|string|null
+     */
+    public function getHumanCurrencyAttribute()
+    {
+        if ($this->currency == 'som')
+            return 'сом';
+        return '$';
     }
 
     /**

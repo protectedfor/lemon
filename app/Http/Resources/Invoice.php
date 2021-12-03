@@ -25,6 +25,8 @@ class Invoice extends JsonResource
             'id'             => $this->id,
             'status'         => $this->status,
             'human_status'   => $this->human_status,
+            'currency'       => $this->currency,
+            'human_currency'       => $this->human_currency,
             'total'          => $this->total,
             'paid'           => $this->paid,
             'dept'           => $this->dept,
