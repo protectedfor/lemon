@@ -27,7 +27,7 @@ class OrganizationController extends BaseController
     public function index(Request $request): JsonResponse
     {
         if (!$request->user()->organizations()->first())
-            return $this->sendError('Организаций не найдено');
+            return $this->sendError('Организаций не найдено', [], 404);
         return $this->sendResponse(new OrganizationResource($request->user()->organizations()->first()), 'Организации пользователя.');
     }
 
