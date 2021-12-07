@@ -65,6 +65,8 @@ class OrganizationController extends BaseController
             ],
             'total_tax'        => $cash_tax_amount + $cashless_tax_amount,
         ];
+        $organization->issued_invoices_total = $organization->invoices->sum('total');
+        $organization->paid_invoices_total = $organization->transactions->sum('amount');
         return $this->sendResponse(new OrganizationResource($organization->load('invoices')), 'Данные организации');
     }
 
