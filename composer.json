@@ -24,6 +24,7 @@
         "laravel/tinker": "^2.5",
         "pdeans/xml-builder": "^1.0",
         "propaganistas/laravel-phone": "^4.3",
+        "saad/api-debugger": "^4.2",
         "tcg/voyager": "^1.5",
         "wulfheart/pretty_routes": "^0.3.0"
     },

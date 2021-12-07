@@ -34,8 +34,8 @@ class BaseController extends Controller
             'data'    => $result,
         ];
 
-        if (env('APP_DEBUG'))
-            $response['debug'] = $debugInfo;
+//        if (env('APP_DEBUG'))
+//            $response['debug'] = $debugInfo;
 
         return response()->json($response, 200);
     }
@@ -71,7 +71,7 @@ class BaseController extends Controller
      * @param int $code
      * @return JsonResponse
      */
-    public function sendError($error, $errorMessages = [], $code = 404)
+    public function sendError($error, $errorMessages = [], $code = 422)
     {
         $debugInfo = $this->getDebugInfo();
 
@@ -84,8 +84,8 @@ class BaseController extends Controller
             $response['data'] = $errorMessages;
         }
 
-        if (env('APP_DEBUG'))
-            $response['debug'] = $debugInfo;
+//        if (env('APP_DEBUG'))
+//            $response['debug'] = $debugInfo;
 
         return response()->json($response, $code);
     }

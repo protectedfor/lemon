@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77a42f663f0757579cb7d677feafbe85",
+    "content-hash": "fab3c0dc74d278049e24079005026cc9",
     "packages": [
         {
             "name": "andreaselia/laravel-api-to-postman",
@@ -4129,6 +4129,82 @@
                 }
             ],
             "time": "2021-09-25T23:10:38+00:00"
+        },
+        {
+            "name": "saad/api-debugger",
+            "version": "4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ahmad-sa3d/api-debugger.git",
+                "reference": "639c802b67110309dfcf9205e1668a568b27fbee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ahmad-sa3d/api-debugger/zipball/639c802b67110309dfcf9205e1668a568b27fbee",
+                "reference": "639c802b67110309dfcf9205e1668a568b27fbee",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=5.4.0",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "orchestra/testbench": ">=3.4.0",
+                "phpunit/phpunit": ">=5.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lanin\\Laravel\\ApiDebugger\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Debugger": "Lanin\\Laravel\\ApiDebugger\\Support\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lanin\\Laravel\\ApiDebugger\\": "src/"
+                },
+                "files": [
+                    "src/Support/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maxim Lanin",
+                    "email": "max@lanin.me",
+                    "homepage": "http://lanin.me"
+                },
+                {
+                    "name": "Ahmed Saad",
+                    "email": "a7mad.sa3d.2014@gmail.com",
+                    "homepage": "http://parent.eu"
+                }
+            ],
+            "description": "Easily debug your JSON API.",
+            "keywords": [
+                "api",
+                "debug",
+                "debugger",
+                "dump",
+                "framework",
+                "json",
+                "laravel",
+                "log",
+                "lumen",
+                "queries"
+            ],
+            "support": {
+                "source": "https://github.com/ahmad-sa3d/api-debugger/tree/4.2.0"
+            },
+            "time": "2019-02-02T13:21:43+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",

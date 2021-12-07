@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -85,6 +86,13 @@ class Handler extends ExceptionHandler
                 if ($exception instanceof ValidationException) {
 
                     return $this->convertValidationExceptionToResponse($exception, $request);
+
+                    // is it authentication exception
+                } else if ($exception instanceof ModelNotFoundException) {
+
+                    $status = 404;
+
+                    $response['error'] = 'Model not found!';
 
                     // is it authentication exception
                 } else if ($exception instanceof AuthenticationException) {
