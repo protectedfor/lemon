@@ -56,14 +56,14 @@ class OrganizationController extends BaseController
             'in_cash_form'     => [
                 'income'     => $cash,
                 'cash_rate'  => $cash_rate . '%',
-                'tax_amount' => $cash_tax_amount,
+                'tax_amount' => round($cash_tax_amount),
             ],
             'in_cashless_form' => [
                 'income' => $cashless,
                 'cash_rate'  => $cashless_rate . '%',
-                'tax_amount' => $cashless_tax_amount,
+                'tax_amount' => round($cashless_tax_amount),
             ],
-            'total_tax'        => $cash_tax_amount + $cashless_tax_amount,
+            'total_tax'        => round($cash_tax_amount + $cashless_tax_amount),
         ];
         $organization->issued_invoices_total = $organization->invoices->sum('total');
         $organization->paid_invoices_total = $organization->transactions->sum('amount');
