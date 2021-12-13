@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('organizations.partners.invoices', OrganizationPartnerInvoiceController::class)->shallow();
     Route::apiResource('invoices.transactions', InvoiceTransactionController::class)->shallow();
 });
+Route::get('invoices/{invoice}/pdf', [OrganizationInvoiceController::class, 'getPdf'])->name('invoices.show.pdf');
 
 Route::get('sliders', [SliderController::class, 'index']);
 
