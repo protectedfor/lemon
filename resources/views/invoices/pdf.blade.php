@@ -1,6 +1,6 @@
 @extends('layouts.pdf')
 @section('title')
-    Счет на оплату №{{ $invoice->id }} от {{ $invoice->human_created_at }}
+    Счет на оплату №{{ $invoice->id }} от {{ $invoice->human_created_at }}.
 @endsection
 @section('styles')
     <style>
@@ -115,7 +115,7 @@
 @endsection
 @section('content')
     <img class="logo" src="{{ asset('img/pdf_logo.png') }}" width="150" alt="">
-    <div class="blue-line">Счет на оплату №{{ $invoice->id }} от {{ $invoice->human_created_at }}</div>
+    <div class="blue-line">Счет на оплату №{{ $invoice->id }} от {{ $invoice->human_created_at }}.</div>
     <table class="invoice-table">
         <tr>
             <td class="col-left"><h4 class="title-h4">Исполнитель</h4></td>
@@ -133,7 +133,7 @@
             <td class="col-left text-block">{{ implode(', ', $customer_requisites) }}</td>
             <td class="col-right">
                 <span class="numbers">{{ number_format($invoice->total, 0, '', ' ') }} {{ $invoice->human_currency }}</span><br>
-                <span class="title-text">{{ $invoice->human_total }} {{ $invoice->human_currency }}</span>
+                <span class="title-text">{{ $invoice->human_total }}</span>
             </td>
         </tr>
     </table>
