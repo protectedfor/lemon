@@ -22,21 +22,23 @@ class Invoice extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'             => $this->id,
-            'status'         => $this->status,
-            'human_status'   => $this->human_status,
-            'currency'       => $this->currency,
-            'human_currency' => $this->human_currency,
-            'total'          => $this->total,
-            'paid'           => $this->paid,
-            'dept'           => $this->dept,
-            'services_count' => $this->services_count,
-            'products_count' => $this->products_count,
-            'created_at'     => $this->created_at->format('d.m.Y H:i'),
-            'items'          => InvoiceItemResource::collection($this->whenLoaded('items')),
-            'transactions'   => TransactionResource::collection($this->whenLoaded('transactions')),
-            'organization'   => new OrganizationResource($this->organization),
-            'partner'        => new PartnerResource($this->partner),
+            'id'               => $this->id,
+            'status'           => $this->status,
+            'human_status'     => $this->human_status,
+            'currency'         => $this->currency,
+            'human_currency'   => $this->human_currency,
+            'total'            => $this->total,
+            'paid'             => $this->paid,
+            'dept'             => $this->dept,
+            'services_count'   => $this->services_count,
+            'products_count'   => $this->products_count,
+            'human_created_at' => $this->human_created_at,
+            'human_total'      => $this->human_total,
+            'created_at'       => $this->created_at->format('d.m.Y H:i'),
+            'items'            => InvoiceItemResource::collection($this->whenLoaded('items')),
+            'transactions'     => TransactionResource::collection($this->whenLoaded('transactions')),
+            'organization'     => new OrganizationResource($this->organization),
+            'partner'          => new PartnerResource($this->partner),
         ];
     }
 }

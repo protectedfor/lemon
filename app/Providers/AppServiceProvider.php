@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use DB;
 use Illuminate\Support\ServiceProvider;
+use Jenssegers\Date\Date;
 use Schema;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,5 +30,7 @@ class AppServiceProvider extends ServiceProvider
             DB::enableQueryLog();
 
         Schema::defaultStringLength(125);
+
+        Date::setlocale(config('app.locale'));
     }
 }

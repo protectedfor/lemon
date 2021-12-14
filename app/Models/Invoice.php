@@ -7,6 +7,8 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Jenssegers\Date\Date;
+use NumberToWords\NumberToWords;
 
 class Invoice extends BaseModel
 {
@@ -28,6 +30,8 @@ class Invoice extends BaseModel
         'status',
         'humanStatus',
         'humanCurrency',
+        'humanCreatedAt',
+        'humanTotalAttribute'
     ];
 
     /**
@@ -142,5 +146,26 @@ class Invoice extends BaseModel
         return $this->items->filter(function ($item) {
             return $item->type === 'product';
         })->count();
+    }
+
+    /**
+     * @return string
+     */
+    public function getHumanCreatedAtAttribute(): string
+    {
+        return Date::parse($this->created_at)->format('j F Y г.');
+    }
+
+    /**
+     * @return string
+     * @throws \NumberToWords\Exception\InvalidArgumentException
+     * @throws \NumberToWords\Exception\NumberToWordsException
+     */
+    public function getHumanTotalAttribute(): string
+    {
+        $numberToWords = new NumberToWords();
+        $numberTransformer = $numberToWords->getNumberTransformer('ru');
+
+        return $numberTransformer->toWords($this->total);
     }
 }

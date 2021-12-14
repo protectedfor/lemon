@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Jenssegers\Date\DateServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -202,7 +203,7 @@ return [
         'Config'       => Illuminate\Support\Facades\Config::class,
         'Cookie'       => Illuminate\Support\Facades\Cookie::class,
         'Crypt'        => Illuminate\Support\Facades\Crypt::class,
-        'Date'         => Illuminate\Support\Facades\Date::class,
+        //        'Date'         => Illuminate\Support\Facades\Date::class,
         'DB'           => Illuminate\Support\Facades\DB::class,
         'Eloquent'     => Illuminate\Database\Eloquent\Model::class,
         'Event'        => Illuminate\Support\Facades\Event::class,
@@ -230,7 +231,7 @@ return [
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
         'PDF'          => Barryvdh\DomPDF\Facade::class,
-
+        'Date'         => Jenssegers\Date\Date::class,
     ],
 
 ];
