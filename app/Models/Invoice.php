@@ -153,7 +153,7 @@ class Invoice extends BaseModel
      */
     public function getHumanCreatedAtAttribute(): string
     {
-        return Date::parse($this->created_at)->format('j F Y г.');
+        return Date::parse($this->created_at)->format('j F Y г');
     }
 
     /**

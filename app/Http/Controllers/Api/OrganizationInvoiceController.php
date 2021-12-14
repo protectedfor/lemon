@@ -53,6 +53,6 @@ class OrganizationInvoiceController extends BaseController
         $invoice->partner->account_number ? array_push($customer_requisites, 'р/с: ' . $invoice->partner->account_number) : null;
         $invoice->partner->bank_address ? array_push($customer_requisites, 'в ' . $invoice->partner->bank_address) : null;
         $pdf->loadView('invoices.pdf', compact('invoice', 'executor_requisites', 'customer_requisites'));
-        return $request->has('html') ? view('invoices.pdf', compact('invoice')) : $pdf->stream();
+        return $request->has('html') ? view('invoices.pdf', compact('invoice')) : $pdf->download('Счет на оплату №' . $invoice->id . ' от ' . $invoice->human_created_at . '.pdf');
     }
 }
