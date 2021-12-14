@@ -65,8 +65,18 @@ class OrganizationController extends BaseController
             ],
             'total_tax'        => round($cash_tax_amount + $cashless_tax_amount),
         ];
-        $organization->issued_invoices_total = $organization->invoices->sum('total');
-        $organization->paid_invoices_total = $organization->transactions->sum('amount');
+        $organization->issued_invoices_total_usd = $organization->invoices->filter(function($item) {
+            return $item->currency == 'usd';
+        })->sum('total');
+        $organization->issued_invoices_total_som = $organization->invoices->filter(function($item) {
+            return $item->currency == 'som';
+        })->sum('total');
+        $organization->paid_invoices_total_usd = $organization->transactions->filter(function($item){
+            return $item->invoice->currency == 'usd';
+        })->sum('amount');
+        $organization->paid_invoices_total_som = $organization->transactions->filter(function($item){
+            return $item->invoice->currency == 'som';
+        })->sum('amount');
         return $this->sendResponse(new OrganizationResource($organization->load('invoices')), 'Данные организации');
     }
 
